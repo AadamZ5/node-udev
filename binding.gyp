@@ -3,15 +3,23 @@
         {
             "target_name": "udev",
             "sources": [
-                "src/udev.h",
-                "src/udev.cpp"
+                #"src/udev_wrapper.h",
+                #"src/udev_wrapper.cpp",
+                "src/udev_device_wrapper/udev_device_wrapper.h",
+                "src/udev_device_wrapper/udev_device_wrapper.cpp",
             ],
             "libraries": [
                 "-ludev",
             ],
-            "include_dirs" : [
-                "src/"
-            ]
+            "include_dirs": [
+                "<!@(node -p \"require('node-addon-api').include\")",
+            ],
+            "dependencies": [
+                "<!(node -p \"require('node-addon-api').gyp\")",
+            ],
+            "cflags!": ["-fno-exceptions"],
+            "cflags_cc!": ["-fno-exceptions"],
+            "defines": ["NAPI_CPP_EXCEPTIONS"]
         },
 
         {
