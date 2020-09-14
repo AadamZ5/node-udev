@@ -1,13 +1,14 @@
-#include <v8.h>
-#include <nan.h>
+
+#define NAPI_VERSION 5 //See https://nodejs.org/api/n-api.html#n_api_n_api_version_matrix
+#include <napi.h>
 
 #include <libudev.h>
 
-using namespace v8;
+using namespace Napi;
 
 static struct udev *udev;
 
-static void PushProperties(Local<Object> obj, struct udev_device* dev) {
+static void PushProperties(Env env, Object* obj, struct udev_device* dev) {
     struct udev_list_entry* sysattrs;
     struct udev_list_entry* entry;
     sysattrs = udev_device_get_properties_list_entry(dev);
@@ -16,9 +17,9 @@ static void PushProperties(Local<Object> obj, struct udev_device* dev) {
         name = udev_list_entry_get_name(entry);
         value = udev_list_entry_get_value(entry);
         if (value != NULL) {
-            obj->Set(Nan::New<String>(name).ToLocalChecked(), Nan::New<String>(value).ToLocalChecked());
+            obj->Set(String::New(env, name), String::New(env, value));
         } else {
-            obj->Set(Nan::New<String>(name).ToLocalChecked(), Nan::Null());
+            obj->Set(String::New(env, name), NULL);
         }
     }
 }

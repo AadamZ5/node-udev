@@ -1,5 +1,6 @@
 node_modules/
 build/
+dist/
 .vagrant/
 
 npm-debug.log

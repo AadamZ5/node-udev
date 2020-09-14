@@ -2,12 +2,15 @@
     "targets": [
         {
             "target_name": "udev",
-            "sources": [ "udev.cc" ],
+            "sources": [
+                "src/udev.h",
+                "src/udev.cpp"
+            ],
             "libraries": [
                 "-ludev",
             ],
             "include_dirs" : [
-                "<!(node -e \"require('nan')\")"
+                "src/"
             ]
         },
 
