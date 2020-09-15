@@ -1,9 +1,9 @@
 #pragma once
 
-#define NAPI_VERSION 5
 #include "napi.h"
 
 #include "udev_device_wrapper/udev_device_wrapper.h"
+#include "udev_context_wrapper/udev_context_wrapper.h"
 
 using namespace Napi;
 
@@ -16,6 +16,10 @@ using namespace Napi;
 * the exports for the module when you return from the Init function.
 */
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    
+    //Get a udev context and set it to the environment for use later.
+    env.Global().Set("udev_context", new UdevContextWrapper());
+
 
     Napi::String name = Napi::String::New(env, "UdevDevice");
     exports.Set(name, UdevDeviceWrapper::GetClass(env));
